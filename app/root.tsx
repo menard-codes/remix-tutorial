@@ -10,7 +10,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useNavigation
+  useNavigation,
+  useSubmit
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
@@ -38,6 +39,7 @@ export const action = async () => {
 export default function App() {
   const { contacts, q } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  const submit = useSubmit();
 
   useEffect(() => {
     // ? Note: You can also do this through `State`, but there'll be more sync points
@@ -59,7 +61,11 @@ export default function App() {
         <div id="sidebar">
           <h1>Remix Contacts</h1>
           <div>
-            <Form id="search-form" role="search">
+            <Form
+              id="search-form"
+              role="search"
+              onChange={e => submit(e.currentTarget)}
+            >
               <input
                 id="q"
                 name="q"
